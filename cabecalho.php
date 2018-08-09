@@ -12,7 +12,7 @@ include "bom_finder.php";
 <meta name="author" content="João Marcos Casa Grande Terêncio">
 <title><?=@$titulo?></title>
 <link rel="icon" href="favicon.png" type="image/png">
-<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Playfair+Display:400,700" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Playfair+Display:400,700|Source+Code+Pro:700" rel="stylesheet">
 <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.12/css/all.css">
 <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="css/estilos.css">
@@ -44,6 +44,16 @@ include "bom_finder.php";
             </div>
           </li>
         </ul>
+        <form class="form-inline ml-2 my-2 my-lg-0" name="frm_busca" method="POST" action="index.php?acao=buscar">
+          <div class="input-group">
+              <div class="input-group-prepend">
+                  <button class="btn btn-addon" type="submit">
+                      <i class="fas fa-search"></i>
+                  </button>
+              </div>
+              <input class="search-field mr-sm-2" type="search" name="busca" id="busca" onkeyup="search_live()" placeholder="Pesquisar" aria-label="Buscar" aria-describedby="addon-search1">
+          </div>
+        </form>
       </div>
 	</div>
 </nav>
