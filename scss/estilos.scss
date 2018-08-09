@@ -34,6 +34,48 @@ $borda: 3px solid white;
 	transition:$t+s $efeito;
 }
 
+@mixin mobile($screen)
+{
+    @if $screen == m
+    {
+        @media (max-width: 575px)
+        {
+            @content;
+        }
+    }
+    @else if $screen == s
+    {
+        @media (min-width:338px){
+            @content;
+        }
+    }
+}
+
+%input-style
+{
+    border: $borda;        
+    border-radius:0;   
+    padding: 2px 7px;
+    @include transition(.4, ease-in-out);
+    &:focus, &:active{
+        border: $borda;
+        background: rgba(0, 0, 0, .15);
+        @include box-shadow(none);
+        outline:0;
+        color:white;
+    }
+}
+
+%label-before
+{
+   padding-right:7px;
+   color: cornflowerblue;
+   font-weight: 700;
+   font-family: "Source Code Pro", Raleway, monospace;
+   display: inline-block;
+   width:20px;
+}
+
 @charset "utf-8";
 /* CSS Document */
 body{
@@ -49,31 +91,24 @@ h2{
 	text-transform: uppercase;
 	font-family: $fonte-titulo !important;
 	color: rgba(0,0,0,.75);
-}
-
-@media (min-width:338px){
-	h2
+    @include mobile(s)
     {
         &::before{
 		    @include separador(0 14px 10px 0);
         };
         &::after{
             @include separador(0 0 10px 14px);
-        }
-	}
-    
-	@media (max-width: 575px)
-	{
-		h2{
+        };
+        @include mobile(m)
+        {
             &::before{
-			    @include separador(0px 7px 10px 0px, 30px);
+			    @include separador(0px 7px 10px 0px, 21px);
             };
             &::after{
-                @include separador(0 0 10px 7px, 30px);
+                @include separador(0 0 10px 7px, 21px);
             }
-		}	
-		
-	}
+        }
+    }
 }
 
 .linha{
@@ -86,28 +121,20 @@ h2{
 	border-radius: 4px;
     @include box-shadow(0 2px 4px 0 rgba(0,0,0,.1), 0 4px 8px 0 rgba(0,0,0,.1));
     input{
-        border: $borda;
         background: transparent;
-        border-radius:0;
-        @include transition(.4, ease-in-out);
-        &:focus, &:active{
-            border: $borda;
-            background: rgba(0, 0, 0, .15);
-            @include box-shadow(none);
-            color:white;
-        }
+        @extend %input-style;
     }
 }
 
 .btn{
+    border-radius: 0;
+    color: white;
 	border:none;
-	border-radius:0;
 	text-transform: uppercase;
-	color: white;
     &:focus, &:active{
         box-shadow: none !important;
     };
-    &:not(.btn-limpar), &:not(.btn-limpar):focus, &:not(.btn-limpar):active{
+    &:not(.btn-limpar, .btn-addon), &:not(.btn-limpar, .btn-addon):focus, &:not(.btn-limpar, .btn-addon):active{
         background: $cor-primaria;
         background: -moz-linear-gradient(top, $cor-primaria 0%, $cor-secundaria 100%) !important;
         background: -webkit-linear-gradient(top, $cor-primaria 0%, $cor-secundaria 100%) !important;
@@ -150,12 +177,15 @@ td, th{
 
 .navbar
 {
-    li>a{
-        text-transform: uppercase;
-        letter-spacing: 4px;
-    }    
-    .far, .fas{
-        color: $cor-primaria;
+    li
+    {
+        &>a{
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        };
+            .far, .fas{
+            color: $cor-primaria;
+        }
     };
     .dropdown-item::before{
         content:"\2014  ";
@@ -164,6 +194,12 @@ td, th{
     };
     .dropdown-item.active, .dropdown-item:active{
         background: #6C757D !important;
+    };
+    input{
+        background: rgba(255,255,255,.25);
+        font-family: $fonte-titulo;
+        font-style: italic;
+        @extend %input-style;
     }
 }
 
@@ -187,4 +223,25 @@ td, th{
         width: 100%;
         background:white;
     }
+}
+
+.btn-addon
+{
+    background: $cor-primaria;
+    color:white !important;
+    border-right: 1px solid white;
+}
+
+.search-field:focus{
+    font-style:normal;
+}
+
+label::before{
+    content:"*";
+    @extend %label-before;
+}
+
+label.filled::before{
+    content:"\2713";
+    @extend %label-before;
 }
